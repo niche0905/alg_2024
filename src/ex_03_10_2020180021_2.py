@@ -17,7 +17,7 @@ def insertionSort(arr, left, right): #right = inclusive
     for i in range(left+1, right+1):
         juin = arr[i]
         j = i-1
-        while j >= left and arr[j] > juin:  # 옮긴다
+        while j >= left and arr[j] < juin:  # 내림차순이니 반대로
             arr[j+1] = arr[j]
             j -= 1
         arr[j+1] = juin
@@ -42,16 +42,32 @@ def partition(arr, left, right): #right = inclusive
     while p < q:
         while True:
             p += 1
+            if p >= q:
+                break
+            if p >= right:
+                break
+            if arr[p] < pivot:  # 내림차순이니 반대로
+                break
 
         while True:
-            q += 1
+            q -= 1
+            if p >= q:
+                break
+            if q <= left:
+                break
+            if arr[q] > pivot:  # 내림차순이니 반대로
+                break
 
+        if p >= q:
+            break
 
-        # swap
+        arr[p], arr[q] = arr[q], arr[p]
 
-    arr[left], arr[pivot_index]
+    pivot_index = q
+    arr[left], arr[pivot_index] = arr[pivot_index], arr[left]
 
     return pivot_index
+
 
 # 얘네가 한묶음 (Tim sort)
 quickSort(words, 0, len(words)-1)

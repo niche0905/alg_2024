@@ -31,11 +31,11 @@ def brute_force(array, i1, i2):
     return s, e, sqrt(min_dist)
 
 def dnc(array, i1, i2):
-    size = i2 - i1
+    size = i2 - i1 + 1
     if size <= 1:
         return -1, -1, 0
     elif size == 2:
-        return i1, i2, dist(i1, i2)
+        return i1, i2, dist(array[i1], array[i2])
     elif size == 3:
         return brute_force(array, i1, i2)
 
@@ -53,17 +53,23 @@ def dnc(array, i1, i2):
     # strip
     x1 = last_left - d
     x2 = last_left + d
-    index1 = # x 좌표가 x1 이상인 점들 중 가장 왼쪽 점의 인덱스
-    index2 = # x 좌표가 x2 이하인 점들 중 가장 오른쪽 점의 인덱스
+    index1 = min(t[2] for t in array if t[0] >= x1 and t[2] >= i1)# x 좌표가 x1 이상인 점들 중 가장 왼쪽 점의 인덱스
+    index2 = max(t[2] for t in array if t[0] <= x2 and t[2] <= i2)# x 좌표가 x2 이하인 점들 중 가장 오른쪽 점의 인덱스
 
     strip = [t for t in y_aligned if index1 <= t[2] and t[2] <= index2]
 
-    for ...:
-        for ...:
+    strip_length = len(strip)
+    for x in range(strip_length):
+        first = array[x]
+        for y in range(x + 1, strip_length):
+            second = array[y]
+            y_diff = second[1] - first[1]
             if y_diff > d:
                 break
-            if d > dist:
-                d = dist
+            now_dist = dist(first, second)
+            if d > now_dist:
+                d = now_dist
+                s, e = first[2], second[2]
 
     return s, e, d
 
@@ -76,8 +82,8 @@ print(x_aligned)
 y_aligned = sorted(x_aligned, key=lambda t:t[1])
 print('--- y aligned ---')
 print(y_aligned)
-# s, e, d = brute_force(coords, 0, len(coords) - 1) # 29, 31, 1208
-s, e, d = dnc(coords, 0, len(coords) - 1)
+# s, e, d = brute_force(coords, 0, len(coords) - 1) # 29, 30, 37.3363
+s, e, d = dnc(x_aligned, 0, len(x_aligned) - 1) # 29, 30, 37.3363
 
 # print(f'{s=} {e=} {d=}')
 print(f'[{s}]{coords[s]} - [{e}]{coords[e]}, {d=}')

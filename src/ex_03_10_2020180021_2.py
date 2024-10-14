@@ -25,8 +25,9 @@ def insertionSort(arr, left, right): #right = inclusive
 def quickSort(arr, left, right): #right = inclusive
     size = right - left + 1
     if size <= 5:
-        # insertionSort(arr, left, right)
         return
+    # if size <= 1:
+    #     return
 
     pivot_index = partition(arr, left, right)
     quickSort(arr, left, pivot_index-1)
@@ -37,31 +38,19 @@ def partition(arr, left, right): #right = inclusive
     arr[left], arr[random_index] = arr[random_index], arr[left]
 
     pivot = arr[left]
-    p, q = left, right
+    p, q = left + 1, right
 
-    while p < q:
-        while True:
+    while p <= q:
+        while p <= right and arr[p] > pivot:
             p += 1
-            if p >= q:
-                break
-            if p >= right:
-                break
-            if arr[p] < pivot:  # 내림차순이니 반대로
-                break
 
-        while True:
+        while q >= left and arr[q] < pivot:
             q -= 1
-            if p >= q:
-                break
-            if q <= left:
-                break
-            if arr[q] > pivot:  # 내림차순이니 반대로
-                break
 
-        if p >= q:
+        if p < q:
+            arr[p], arr[q] = arr[q], arr[p]
+        else:
             break
-
-        arr[p], arr[q] = arr[q], arr[p]
 
     pivot_index = q
     arr[left], arr[pivot_index] = arr[pivot_index], arr[left]
@@ -69,7 +58,9 @@ def partition(arr, left, right): #right = inclusive
     return pivot_index
 
 
-# 얘네가 한묶음 (Tim sort)
-quickSort(words, 0, len(words)-1)
-insertionSort(words, 0, len(words)-1)
-print(words)
+if __name__ == '__main__':
+    # 얘네가 한묶음 (Tim sort)
+    quickSort(words, 0, len(words)-1)
+    insertionSort(words, 0, len(words)-1)
+
+    print(words)

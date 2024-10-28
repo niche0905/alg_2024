@@ -22,7 +22,7 @@ def main():
   global roots
   roots = [x for x in range(n_cities)] 
   
-  edges.sort(key=lambda e: e[2])
+  edges.sort(key=lambda e: e[2])  # 가중치를 기준으로 정렬해달라
   copy = edges[:]
   vis.sort_edges()
 
@@ -31,12 +31,12 @@ def main():
 
   while len(mst) < n_cities - 1 and copy:
     u,v,w = copy.pop(0)
-    if find_root(u) == find_root(v): 
+    if find_root(u) == find_root(v): # 사이클이 생기는지 확인
       vis.ignore(u, v, w)
       continue
     c1, c2 = cities[u], cities[v]
     total_cost += w
-    mst.append((u, v))
+    mst.append((u, v))  # MST 에 추가
     union(u, v)
     vis.append(u, v, w)
     

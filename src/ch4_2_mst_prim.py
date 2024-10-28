@@ -42,6 +42,7 @@ def main():
   global mst
   mst = []
   while weights:
+    # heap 을 이용해서 weight 가 가장 작은 것을 빨리 찾기 위해 14번 기준 지금은 heapdict
     ci, (w, fr) = weights.popitem() # key=cityToIndex, value=(weight,cityFromIndex)
     completed.add(ci)
     if (fr != ci):

@@ -13,7 +13,7 @@ edges=[
 ]
 num_vertex = 25
 
-start = 8
+start = 12
 
 # edge list 형태의 입력을 Adjacency Matrix (List) 형태로 변환
 g = { s: dict() for s in range(num_vertex) }
@@ -24,23 +24,27 @@ for s,e,w in edges:
 
 
 from heapdict import heapdict
-mst = [] # 결과물이 tree 형태로 저장될 예정
+# mst = [] # 결과물이 tree 형태로 저장될 예정
 D = heapdict()     # 알려진 거리들 저장. key 까지 가는 비용은 value 임.
 origins = dict()   # key 까지 가려면 value 에서 가야 한다는 정보 저장
 completed = set()  # 내륙에 속하는 점들을 모아 둔다
+distance = dict()
 
-def append(s, e, w):
-    if s <= e:
-        mst.append((s,e,w))
-    else:
-        mst.append((e,s,w))
-    mst.sort(key=lambda e:e[0]*1000+e[1])
+# def append(s, e, w):
+#     if s <= e:
+#         mst.append((s,e,w))
+#     else:
+#         mst.append((e,s,w))
+#     mst.sort(key=lambda e:e[0]*1000+e[1])
 
 def update(s, e, w):
-    if ??? completed: return     # 내륙이면 무시
-    if ??? and D[e] <= w: return # 존재하고 기존게 싸면 무시
+    if e in completed: return     # 내륙이면 무시
+    wei = w + distance[s]
+    if e in D.keys() and D[e] <= wei: return # 존재하고 기존게 싸면 무시
 
     # D 및 origins 를 갱신한다.
+    D[e] = wei
+    origins[e] = s
 
 # 시작점에 대한 정보를 저장하고 메인 루프에 들어간다
 D[start] = 0
@@ -49,13 +53,14 @@ origins[start] = start
 while D: # 알려진 거리정보가 남아 있는 동안
 # while len(completed) < num_vertex:
 # while len(mst) < num_vertex-1:
-    to_vertex, weight = ????
-    fr_vertex = ????
-    completed.????(???)
-    if ?????:   # 맨 처음이면 (from과 to가 같으면)
-        append(????)
+    to_vertex, weight = D.popitem()
+    fr_vertex = origins[to_vertex]
+    completed.add(to_vertex)
+    # if start not in distance.keys():
+    distance[start] = weight
+
     for adj, adj_w in g[to_vertex].items():
-        update(?????)
+        update(to_vertex, adj, adj_w)
 
 # print(mst)
 
@@ -65,9 +70,8 @@ def path_to(to):
     fr = origins[to]
     if fr == to: return 0, f'{to}'
     cost, path = path_to(fr)
-    return cost + ????, ????
+    return cost + g[fr][to], path + f'{to}'
 
 for to in range(num_vertex):
     cost, path = path_to(to)
     print(f'{path=} {cost=}')
-

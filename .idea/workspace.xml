@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9a2ebd73-71fa-4808-9150-ca5f898fe25d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hw_03_18_2020180021_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/hw_03_18_2020180021_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hw_03_18_2020180021_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/hw_03_18_2020180021_3.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +30,7 @@
     "Python.ch4_2_mst_prim.executor": "Run",
     "Python.hw_03_18_2020180021_1.executor": "Run",
     "Python.hw_03_18_2020180021_2.executor": "Run",
+    "Python.hw_03_18_2020180021_3.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "1104",
@@ -53,5 +54,16 @@
       <updated>1730190447605</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/hw_03_18_2020180021_3.py</url>
+          <line>59</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

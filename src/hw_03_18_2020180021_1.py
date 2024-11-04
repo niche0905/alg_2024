@@ -13,7 +13,7 @@ edges=[
 ]
 num_vertex = 25
 
-roots = [-1 for _ in range(num_vertex)]
+roots = [n for n in range(num_vertex)]
 # edges = []
 
 # 튜플을 담는다 n-1 (n은 정점의 개수)
@@ -28,11 +28,19 @@ def append(s, e, w):    # 과제 검수용 (건드리지 말것)
 def spanning(): # mst가 n-1이면 다 확장한 상황이다
     return len(mst) >= num_vertex - 1
 def onSameTree(u, v):   # 부모가 같은지 (사이클 확인용)
-    pass
+    return getRoot(u) == getRoot(v)
+
 def getRoot(v): # root를 구하는 함수 key와 value가 같을 때까지 재귀
-    pass
+    if v != roots[v]:
+        roots[v] = getRoot(roots[v])
+    return roots[v]
+
 def connect(u, v):  # 서로 연결되는지를 알 수 있다 (기존 union)
-    pass
+    u_root = getRoot(u)
+    v_root = getRoot(v)
+    if u_root > v_root:
+        u_root, v_root = v_root, u_root
+    roots[v_root] = u_root
 
 edges.sort(key=lambda e: e[2])    # 가중치로 정렬
 

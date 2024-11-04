@@ -37,10 +37,12 @@ def append(s, e, w):
     mst.sort(key=lambda e:e[0]*1000+e[1])
 
 def update(s, e, w):
-    if ??? completed: return     # 내륙이면 무시
-    if ??? and D[e] <= w: return # 존재하고 기존게 싸면 무시
+    if e in completed: return     # 내륙이면 무시
+    if e in D.keys() and D[e] <= w: return # 존재하고 기존게 싸면 무시
 
     # D 및 origins 를 갱신한다.
+    D[e] = w
+    origins[e] = s
 
 # 시작점에 대한 정보를 저장하고 메인 루프에 들어간다
 D[start] = 0
@@ -49,13 +51,13 @@ origins[start] = start
 while D: # 알려진 거리정보가 남아 있는 동안
 # while len(completed) < num_vertex:
 # while len(mst) < num_vertex-1:
-    to_vertex, weight = ????
-    fr_vertex = ????
-    completed.????(???)
-    if ?????:   # 맨 처음이면 (from과 to가 같으면)
-        append(????)
+    to_vertex, weight = D.popitem()
+    fr_vertex = origins[to_vertex]
+    completed.add(to_vertex)
+    if fr_vertex != to_vertex:   # 맨 처음이면 (from과 to가 같으면)
+        append(to_vertex, fr_vertex, weight)
     for adj, adj_w in g[to_vertex].items():
-        update(?????)
+        update(to_vertex, adj, adj_w)
 
 print(mst)
 

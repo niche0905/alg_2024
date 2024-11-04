@@ -44,11 +44,13 @@ def update(s, e, w):
 
     # D 및 origins 를 갱신한다.
     D[e] = wei
+    distance[e] = wei
     origins[e] = s
 
 # 시작점에 대한 정보를 저장하고 메인 루프에 들어간다
 D[start] = 0
 origins[start] = start
+distance[start] = 0
 
 while D: # 알려진 거리정보가 남아 있는 동안
 # while len(completed) < num_vertex:
@@ -56,8 +58,6 @@ while D: # 알려진 거리정보가 남아 있는 동안
     to_vertex, weight = D.popitem()
     fr_vertex = origins[to_vertex]
     completed.add(to_vertex)
-    # if start not in distance.keys():
-    distance[start] = weight
 
     for adj, adj_w in g[to_vertex].items():
         update(to_vertex, adj, adj_w)
@@ -70,7 +70,7 @@ def path_to(to):
     fr = origins[to]
     if fr == to: return 0, f'{to}'
     cost, path = path_to(fr)
-    return cost + g[fr][to], path + f'{to}'
+    return cost + g[fr][to], f'{path}-{to}'
 
 for to in range(num_vertex):
     cost, path = path_to(to)

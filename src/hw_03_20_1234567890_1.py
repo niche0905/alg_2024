@@ -17,20 +17,35 @@ start = 7
 ## Prim
 
 # Build Graph from Input Edge List
-g = { dict()... }
+g = { u : dict() for u in range(num_vertex)}
 for s,e,w in edges:
-    ...
+    g[s][e] = w
+    g[e][s] = w
 
 # Prepare Data Structures
 from heapdict import heapdict
 mst = []
+completed = set()
+completed.add(start)
 D = heapdict()
-...
+D[start] = 0
+origin = dict()
+origin[start] = start
 weight_sum = 0
 # Prim Main Loop
 while D:
-    ...
+    v, w = D.popitem()
+    u = origin[v]
+    if u != v:
+        mst.append((u, v, w))
+        completed.add(v)
+        weight_sum += w
 
+    for adj, weight in g[v].items():
+        if adj in completed: continue
+        if adj in D.keys() and D[adj] <= weight: continue
+        D[adj] = weight
+        origin[adj] = v
 
 print(weight_sum, mst)
 # 5549 [(8, 9, 230), (9, 18, 154), (9, 22, 191), (18, 16, 214), (16, 17, 308), 
@@ -41,19 +56,28 @@ print(weight_sum, mst)
 
 ## TSP
 # Build Graph from MST
-mg = { set()... }
+mg = { u : set() for u in range(num_vertex) }
 for s,e,w in mst:
-    ...
+    mg[s].add(e)
+    mg[e].add(s)
 
 # Make Sequence
 seq = [ start ]
 current = start
 while True:
-    if current == start and ??? : break
+    if current == start and not mg[start] : break
 
-    ...
+    adjs = mg[current]
+    visited = None
+    for k in adjs:
+        if visited == None: visited = k
+        if k not in seq:
+            visited = k
+            break
+    mg[current].remove(visited)
+    seq.append(visited)
+    current = visited
 
-    current = visit
 print(seq)
 # [8, 9, 18, 16, 17, 3, 0, 21, 2, 21, 12, 5, 13, 1, 13, 5, 7, 5, 12, 21, 
 #  0, 3, 6, 19, 20, 11, 20, 19, 15, 4, 10, 4, 15, 14, 15, 19, 6, 3, 17, 16, 
@@ -63,7 +87,12 @@ print(seq)
 visited = set()
 index = 0
 while index < len(seq):
-    ????
+    current = seq[index]
+    if current in visited:
+        seq.pop(index)
+    else:
+        visited.add(current)
+        index += 1
 seq.append(start)
 print(seq)
 # [8, 9, 18, 16, 17, 3, 0, 21, 2, 12, 5, 13, 1, 7, 6, 19, 20, 11, 15, 4, 10, 14, 22, 8]

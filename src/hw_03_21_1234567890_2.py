@@ -21,9 +21,10 @@ n_edges = len(edges)
 # build adj set from edges
 from collections import defaultdict
 g = defaultdict(set)    # defaultdict를 써도 되고 n개를 미리 넣어놔도 된다
-for i in ...:
+for i in range(n_edges):
     u,v,w = edges[i]
-    ...
+    g[u].add(v)
+    g[v].add(u)
 
 # 구하려는 Set Cover 해 정점들
 vc = set()
@@ -32,7 +33,7 @@ import random
 vertices = list(range(num_vertex))
 covered_edge = 0
 while covered_edge < n_edges:
-    random_index = ...
+    random_index = random.randrange(len(vertices))
     u = vertices.pop(random_index) # randomly select from vertices
     if not g[u]: continue # 이 점 주위에 연결된것이 없다면 (모두 지워졌다면) 넘어간다
     v = next(iter(g[u]))  # u 에 연결된 점 하나 뽑아오기 v=list(g[u])[0] 또는 v=list(g[u]).pop() 도 가능.
@@ -42,11 +43,13 @@ while covered_edge < n_edges:
 
     # 모든 점 k 에 대해 u~k, v~k 간선을 삭제한다.
     for n in [u,v]:
-        ...
         vc.add(n)
-        for k in ...: # 모든 점 k 에 대하여
-            if k ...: # n 에서 k 로 가는 선이 살아있다면 (안 지워졌다면)
+        for k in range(num_vertex): # 모든 점 k 에 대하여
+            if k in g[n]: # n 에서 k 로 가는 선이 살아있다면 (안 지워졌다면)
                 # 그 선은 지운다
+                g[n].remove(k)
+                if n in g[k]:
+                    g[k].remove(n)
                 covered_edge += 1 # 선의 갯수 +1
 
 print(len(vc), vc)

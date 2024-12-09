@@ -13,7 +13,7 @@ def bin_free(bin):
     return BIN_SIZE - sum(bin)
 
 def bin_can_hold(bin, size):
-    return ??? >= size
+    return bin_free(bin) >= size
 
 def new_bin():
     nb = []
@@ -22,34 +22,50 @@ def new_bin():
 
 # 함수들을 채워라
 def first_fit(size):
-    for b in ???:
-        if ???:
+    for b in bins:
+        if bin_can_hold(b, size):
             return b
     return new_bin()
 
 def next_fit(size):
     global last_bin
-    if ???? and ????:
+    if last_bin != None and bin_can_hold(last_bin, size):
         return last_bin
     return new_bin()
 
 def best_fit(size):
     smallest_bin = None
     smallest_size = BIN_SIZE
-    ...
+    for b in bins:
+        binFree = bin_free(b)
+        if smallest_size > binFree and binFree >= size:
+            smallest_bin = b
+            smallest_size = binFree
+    if smallest_bin != None:
+        return smallest_bin
+    return new_bin()
 
 def worst_fit(size):
     largest_bin = None
-    ...
+    largest_size = -1
+    for b in bins:
+        binFree = bin_free(b)
+        if largest_size < binFree and binFree >= size:
+            largest_bin = b
+            largest_size = binFree
+    if largest_bin != None:
+        return largest_bin
+    return new_bin()
 
-fits = [ ... ]
-for fit in fits:
+fits = [ first_fit, next_fit, best_fit, worst_fit ]
+outString = ["first_fit", "next_fit", "best_fit", "worst_fit"]
+for i, fit in enumerate(fits):
     bins = []
     last_bin = None
     for num in nums:
-        bin = first_fit(num)
+        bin = fit(num)
         bin.append(num)
         last_bin = bin
 
-    print(f'Function: <<first_fit>>')
+    print(f'Function: <{outString[i]}>')
     print(bins)
